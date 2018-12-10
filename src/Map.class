@@ -1,0 +1,38 @@
+/*
+ * · JLRC Multi Rainbow Table Generator 4 Hadoop
+ * · Practice for Distributed Sistems
+ * · 2018 Leon
+ */
+
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.conf.*;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
+
+public static class Map extends Mapper<LongWritable, Text, Text, Text>{
+		
+		private Text word = new Text();
+		private Text val = new Text();
+		
+		public void map(LongWritable key, Text value, Context cntxt) throws IOException, InterruptedException {
+			String line = value.toString();
+			StringTokenizer tokenzr = new StringTokenizer(line);
+			
+			while(tokenzr.hasMoreTokens()){
+				word.set(tokenzr.nextToken());
+				val.set(mrtgen.getHASHES(word.toString()));
+				cntxt.write(val,word);
+			}
+		}
+	}
