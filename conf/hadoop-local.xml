@@ -10,3 +10,4 @@
     <name>mapreduce.framework.name</name>
     <value>local</value>
   </property>
+</configuration>
