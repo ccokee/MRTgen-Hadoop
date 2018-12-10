@@ -3,11 +3,7 @@ version: '2'
 # Cluster nertwork configuration
 networks:
  Hadoop:
-  driver: bridge
-  ipam:
-   config:
-     - subnet: 172.19.0.0/24
-       gateway: 172.19.0.1
+   external: true
 
 # Persistent volumes configuration
 volumes:
