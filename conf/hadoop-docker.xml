@@ -1,0 +1,16 @@
+hadoop-cluster.xml
+<?xml version="1.0"?>
+<configuration>
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://172.19.0.2:8020/</value>
+</property>
+<property>
+<name>mapreduce.framework.name</name>
+<value>yarn</value>
+</property>
+<property>
+<name>yarn.resourcemanager.address</name>
+<value>172.19.0.19:8030</value>
+</property>
+</configuration>
