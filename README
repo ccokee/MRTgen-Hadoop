@@ -1,0 +1,10 @@
+INSTRUCTIONS:
+
+1 - Run ./rundocker.sh
+
+2 - Run ./run.sh OR:
+
+	- Copy files to hdfs: hadoop fs -copyFromLocal hdfs://172.19.0.2:8020/input
+	- Run the app: hadoop jar MultiRainbowTableGenerator -conf conf/hadoop-docker.xml HASHED_VALUE /input /output
+
+3 - Check the output: hadoop fs -cat hdfs://172.19.0.2:8020/output/*

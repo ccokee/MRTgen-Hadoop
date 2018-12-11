@@ -10,6 +10,6 @@
 </property>
 <property>
 <name>yarn.resourcemanager.address</name>
-<value>172.19.0.19:8030</value>
+<value>172.19.0.19:8032</value>
 </property>
 </configuration>

@@ -133,19 +133,3 @@ services:
     - YARN_CONF_yarn_nodemanager_aux___services=mapreduce_shuffle
     - HDFS_CONF_dfs_blocksize=64m
 
- hadoop-nm2:
-  image: uhopper/hadoop-nodemanager
-  hostname: hadoop-nm2
-  container_name: hadoop-nm2
-  networks: 
-    Hadoop:
-       ipv4_address: 172.19.0.22
-  environment:
-    - CLUSTER_NAME=cKHadoop
-    - HDFS_CONF_dfs_replication=3
-    - CORE_CONF_fs_defaultFS=hdfs://hadoop-nn:8020
-    - YARN_CONF_yarn_resourcemanager_hostname=hadoop-rsm
-    - YARN_CONF_yarn_log___aggregation___enable=true
-    - YARN_CONF_yarn_nodemanager_remote___app___log___dir=/app-logs
-    - YARN_CONF_yarn_nodemanager_aux___services=mapreduce_shuffle
-    - HDFS_CONF_dfs_blocksize=64m

@@ -27,11 +27,30 @@ public class mrtgenDriver extends Configured implements Tool {
 				} else {
 					
 					Configuration cfg = new Configuration();
-					Job job = new Job(cfg, "Hashing");
 					cfg=getConf();
-					cfg.set("hash", args[0]);	
+					cfg.set("hashedVal", args[0]);
+					Job job = new Job(cfg, "Hashing");
+					Job jobRev = new Job(cfg, "Hasing 2");
+
+					jobRev.setJarByClass(mrtgenDriver.class);
+
+					jobRev.setOutputKeyClass(Text.class);
+					jobRev.setOutputValueClass(Text.class);
+
+					jobRev.setMapperClass(MapRev.class);
+					jobRev.setReducerClass(ReduceRev.class);
+
+					jobRev.setInputFormatClass(TextInputFormat.class);
+					jobRev.setOutputFormatClass(TextOutputFormat.class);
+					jobRev.setNumReduceTasks(3);
+
+					FileInputFormat.addInputPath(jobRev, new Path(args[1]));
+					FileOutputFormat.setOutputPath(jobRev, new Path(args[2] + "-Different"));
+					jobRev.waitForCompletion(true);
+					
+					job.setJarByClass(mrtgenDriver.class);
 					job.setJarByClass(getClass());
-					FileInputFormat.addInputPath(job, new Path(args[1]));
+					FileInputFormat.addInputPath(job, new Path(args[2] + "-Different"));
 					FileOutputFormat.setOutputPath(job, new Path(args[2]));
 					job.setOutputKeyClass(Text.class);
 					job.setOutputValueClass(Text.class);
@@ -39,7 +58,9 @@ public class mrtgenDriver extends Configured implements Tool {
 					job.setReducerClass(Reduce.class);
 					job.setInputFormatClass(TextInputFormat.class);
 					job.setOutputFormatClass(TextOutputFormat.class);
-					job.setNumReduceTasks(20);
+					job.setNumReduceTasks(3);
+					
+					
 					return job.waitForCompletion(true) ? 0 : 1;
 				}	
 			}

@@ -16,30 +16,24 @@ public class Reduce extends Reducer <Text,Text,Text,Text>{
 		
 		private Set<String> set = new HashSet<String>();
 		
-		public static enum Cnt{
-			
-			L0,L1,L2,L3,L4,L5
-		}
-		
-		public static enum setCounters{
-			
-			NFBuffer
-		}
+		public static enum UpdateCount{
+			  CNT
+			 }
 		
 		public void reduce(Text key,Iterable<Text> values, Context cntxt) throws IOException, InterruptedException {
 			
 			StringBuilder sb = new StringBuilder();
 			Configuration cfg = cntxt.getConfiguration();
-			String param = cfg.get("hash");
+			String param = cfg.get("hashedVal");
 			
 			for(Text val:values)
 				set.add(val.toString());
 			for(String val:set)
 				sb.append(val).append(" ");
-			cntxt.getCounter( Cnt.values()[set.size()] ).increment(1);
-			
-			if(sb.toString().trim().contains(param))
-				cntxt.write(key, new Text(sb.toString().trim()));
+			//cntxt.getCounter( Cnt.values()[set.size()] ).increment(1);
+			cntxt.getCounter(UpdateCount.CNT).increment(1);
+			if(sb.toString().contains(param) || key.toString().contains(param))
+				cntxt.write(key, new Text(sb.toString()));
 			
 			set.clear();
 		}
